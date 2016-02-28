@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "react-native": "^0.20.0",
+    "react-native-button": "^1.4.2",
     "react-native-router-flux": "^2.3.6"
   }
 }

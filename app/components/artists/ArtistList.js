@@ -7,7 +7,7 @@ import React, {
   View
 } from 'react-native';
 
-class RouterComponent extends Component {
+class ArtistList extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -42,5 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('RouterComponent', () => RouterComponent);
-
+module.exports = ArtistList;

@@ -6,6 +6,8 @@ import React, {
   Text,
   View
 } from 'react-native';
+import Button from 'react-native-button';
+import {Actions} from 'react-native-router-flux';
 
 class Player extends Component {
   render() {
@@ -17,6 +19,7 @@ class Player extends Component {
         <Text style={styles.instructions}>
           This song is playing
         </Text>
+        <Button onPress={Actions.pop}>Close Player</Button>
       </View>
     );
   }

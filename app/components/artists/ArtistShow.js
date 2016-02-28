@@ -6,6 +6,8 @@ import React, {
   Text,
   View
 } from 'react-native';
+import Button from 'react-native-button';
+import {Actions} from 'react-native-router-flux';
 
 class ArtistShow extends Component {
   render() {
@@ -17,6 +19,8 @@ class ArtistShow extends Component {
         <Text style={styles.instructions}>
           The songs go here
         </Text>
+        <Button onPress={Actions.pop}>Go Back</Button>
+        <Button onPress={Actions.player}>Go to Player</Button>
       </View>
     );
   }
@@ -27,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#999',
+    backgroundColor: '#111',
   },
   welcome: {
     fontSize: 20,

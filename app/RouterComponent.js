@@ -15,7 +15,7 @@ import Player from './components/player/Player';
 class RouterComponent extends Component {
   render() {
     return (
-      <Router hideNavBar={true}>
+      <Router style={ styles.container } hideNavBar={true}>
         <Schema name="default" sceneConfig={Navigator.SceneConfigs.FloatFromRight}/>
         <Schema name="bottom" sceneConfig={Navigator.SceneConfigs.FloatFromBottom}/>
         <Route name="artistList" component={ArtistList} initial={true} title="Artists"/>
@@ -25,6 +25,12 @@ class RouterComponent extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#111',
+  }
+});
 
 module.exports = RouterComponent;
 

@@ -11,6 +11,7 @@ import {Router, Route, Schema, Animations, TabBar} from 'react-native-router-flu
 import ArtistList from './components/artists/ArtistList';
 import ArtistShow from './components/artists/ArtistShow';
 import Player from './components/player/Player';
+import { Artists } from './mockData';
 
 class RouterComponent extends Component {
   render() {

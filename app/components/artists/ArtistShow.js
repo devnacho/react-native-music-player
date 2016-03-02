@@ -14,7 +14,7 @@ class ArtistShow extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Artists Show
+          { this.props.artist.name }
         </Text>
         <Text style={styles.instructions}>
           The songs go here

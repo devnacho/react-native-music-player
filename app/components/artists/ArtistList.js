@@ -4,24 +4,33 @@ import React, {
   Component,
   StyleSheet,
   Text,
+  ListView,
   View
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
+import { Artists } from '../../mockData';
+import ArtistListItem from './ArtistListItem';
 
 
 class ArtistList extends Component {
+  constructor(props){
+    super(props);
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows( Artists ),
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Artists List
         </Text>
-        <Text style={styles.instructions}>
-          The artist list goes here
-        </Text>
-        <Button onPress={Actions.artistShow}>Go to Artist Songs</Button>
-        <Button onPress={Actions.player}>Go to Player</Button>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={ ( artist ) => <ArtistListItem artist={ artist } /> }/>
       </View>
     );
   }
@@ -31,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     backgroundColor: '#111',
   },
   welcome: {

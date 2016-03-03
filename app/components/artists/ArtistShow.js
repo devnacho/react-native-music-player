@@ -8,20 +8,28 @@ import React, {
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 class ArtistShow extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          { this.props.artist.name }
-        </Text>
-        <Text style={styles.instructions}>
-          The songs go here
-        </Text>
-        <Button onPress={Actions.pop}>Go Back</Button>
-        <Button onPress={Actions.player}>Go to Player</Button>
-      </View>
+      <ParallaxScrollView
+        parallaxHeaderHeight={300}
+        stickyHeaderHeight={ 50 }
+        renderStickyHeader={() => (
+          <View style={{ height: 50,  backgroundColor: '#000', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ color: "#FFF" }}>HEADER</Text>
+          </View>
+        )}
+        renderForeground={() => (
+          <View style={{ height: 300, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ color: "#FFF" }}>Hello World!</Text>
+          </View>
+        )}>
+        <View style={{ height: 500 }}>
+          <Text>Scroll me</Text>
+        </View>
+      </ParallaxScrollView>
     );
   }
 }

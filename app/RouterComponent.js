@@ -29,7 +29,7 @@ class RouterComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#111',
+    backgroundColor: '#000',
   }
 });
 

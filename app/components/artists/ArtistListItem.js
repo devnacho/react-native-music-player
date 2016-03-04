@@ -25,7 +25,7 @@ class ArtistListItem extends Component {
         >
           <View style={ styles.container }>
             <Text style={ styles.artistName }>{ this.props.artist.name }</Text>
-            <Text style={ styles.artistSongs }>20 songs</Text>
+            <Text style={ styles.artistSongs }>{ this.props.artist.songs.length } songs</Text>
           </View>
         </Image>
       </TouchableHighlight>

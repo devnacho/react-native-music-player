@@ -6,7 +6,8 @@ import React, {
   StyleSheet,
   Image,
   Text,
-  View
+  View,
+  ListView
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
@@ -14,6 +15,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
+const STICKY_HEADER_HEIGHT = 50;
 const AVATAR_SIZE = 120;
 
 class ArtistShow extends Component {
@@ -59,10 +61,21 @@ class ArtistShow extends Component {
   }
 
   renderSongsList() {
+    let songsDataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows( this.props.artist.songs );
     return(
-      <View style={{ height: 1000, backgroundColor: "#000", flex: 1 }}>
-        <Text>Scroll me</Text>
-      </View>
+      <ListView
+        dataSource={ songsDataSource }
+        style={ styles.songsList }
+        renderRow={(song) => (
+          <View key={song} style={ styles.song }>
+            <Text style={ styles.songTitle }>
+              { song.title }
+            </Text>
+            <Text style={ styles.albumTitle }>
+              { song.album }
+            </Text>
+          </View>
+          )}/>
     );
   }
 
@@ -71,7 +84,7 @@ class ArtistShow extends Component {
     return (
       <ParallaxScrollView
         parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-        stickyHeaderHeight={ 50 }
+        stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
         onScroll={onScroll}
         renderStickyHeader={ this.renderStickyHeader.bind(this) }
         renderForeground={ this.renderForeground.bind(this) }
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
     height: PARALLAX_HEADER_HEIGHT
   },
   stickySection: {
-    height: 50,
+    height: STICKY_HEADER_HEIGHT,
     backgroundColor: '#000',
     flex: 1,
     alignItems: 'center',
@@ -130,7 +143,32 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontFamily: "Helvetica Neue",
     fontSize: 13,
-  }
+  },
+  songsList: {
+    flex: 1,
+    backgroundColor: "#000",
+    paddingTop: 5,
+    height: window.height - STICKY_HEADER_HEIGHT,
+  },
+  song: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#111",
+
+  },
+  songTitle: {
+    color: "white",
+    fontFamily: "Helvetica Neue",
+    marginBottom: 5,
+  },
+  albumTitle: {
+    color: "#BBB",
+    fontFamily: "Helvetica Neue",
+    fontSize: 12
+  },
 
 });
 

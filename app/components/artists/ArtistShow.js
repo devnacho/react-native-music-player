@@ -5,6 +5,7 @@ import React, {
   Dimensions,
   StyleSheet,
   Image,
+  TouchableHighlight,
   Text,
   View,
   ListView
@@ -41,7 +42,9 @@ class ArtistShow extends Component {
           { this.props.artist.name }
         </Text>
         <View style={ styles.playButton }>
-          <Text style={ styles.playButtonText }>
+          <Text
+            onPress={ () => Actions.player({ song: this.props.artist.songs[0], image: this.props.artist.background, artist: this.props.artist }) }
+            style={ styles.playButtonText }>
             PLAY
           </Text>
         </View>
@@ -67,14 +70,16 @@ class ArtistShow extends Component {
         dataSource={ songsDataSource }
         style={ styles.songsList }
         renderRow={(song) => (
-          <View key={song} style={ styles.song }>
-            <Text style={ styles.songTitle }>
-              { song.title }
-            </Text>
-            <Text style={ styles.albumTitle }>
-              { song.album }
-            </Text>
-          </View>
+          <TouchableHighlight onPress={ () => Actions.player({ song: song, image: this.props.artist.background, artist: this.props.artist }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
+            <View key={song} style={ styles.song }>
+              <Text style={ styles.songTitle }>
+                { song.title }
+              </Text>
+              <Text style={ styles.albumTitle }>
+                { song.album }
+              </Text>
+            </View>
+          </TouchableHighlight>
           )}/>
     );
   }

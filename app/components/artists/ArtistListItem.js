@@ -23,10 +23,10 @@ class ArtistListItem extends Component {
           resizeMode='cover'
           source={{uri:  this.props.artist.background  }}
         >
-          <View style={ styles.container }>
-            <Text style={ styles.artistName }>{ this.props.artist.name }</Text>
-            <Text style={ styles.artistSongs }>{ this.props.artist.songs.length } songs</Text>
-          </View>
+        <View style={ styles.container }>
+          <Text style={ styles.artistName }>{ this.props.artist.name }</Text>
+          <Text style={ styles.artistSongs }>{ this.props.artist.songs.length } songs</Text>
+        </View>
         </Image>
       </TouchableHighlight>
     );

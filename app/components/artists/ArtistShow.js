@@ -87,15 +87,21 @@ class ArtistShow extends Component {
   render() {
     const { onScroll = () => {} } = this.props;
     return (
-      <ParallaxScrollView
-        parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-        stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-        onScroll={onScroll}
-        renderStickyHeader={ this.renderStickyHeader.bind(this) }
-        renderForeground={ this.renderForeground.bind(this) }
-        renderBackground={ this.renderBackground.bind(this) }>
-        { this.renderSongsList() }
-      </ParallaxScrollView>
+      <View>
+        <ParallaxScrollView
+          style={ { position: "absolute", top: 0, bottom: 0, left: 0, right: 0, width: window.width, height: window.height } }
+          parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+          stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
+          onScroll={onScroll}
+          renderStickyHeader={ this.renderStickyHeader.bind(this) }
+          renderForeground={ this.renderForeground.bind(this) }
+          renderBackground={ this.renderBackground.bind(this) }>
+          { this.renderSongsList() }
+        </ParallaxScrollView>
+        <Text onPress={ () => Actions.pop() } style={ styles.headerClose }>
+          &laquo;
+        </Text>
+      </View>
     );
   }
 }
@@ -110,6 +116,17 @@ const styles = StyleSheet.create({
     width: window.width,
     backgroundColor: 'rgba(0,0,0,.8)',
     height: PARALLAX_HEADER_HEIGHT
+  },
+  headerClose: {
+    color: '#FFF',
+    position: 'absolute',
+    top: 5,
+    left: 0,
+    fontSize: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   stickySection: {
     height: STICKY_HEADER_HEIGHT,

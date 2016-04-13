@@ -55,10 +55,12 @@ const styles = StyleSheet.create({
   headerClose: {
     color: '#FFF',
     position: 'absolute',
-    top: 20,
-    left: 18,
-    width: 20,
-    height: 20,
+    top: 10,
+    left: 0,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   headerText: {
     color: "#FFF",

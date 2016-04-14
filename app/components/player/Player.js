@@ -12,30 +12,87 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
-
+import Sound from 'react-native-sound';
 
 const window = Dimensions.get('window');
+
+const whoosh = new Sound('song1.mp3', Sound.MAIN_BUNDLE, (error) => {});
+
 
 class Player extends Component {
   constructor(props){
     super(props);
+    whoosh.play();
+    this.timeCallback = setInterval(this.getTime.bind(this), 30);
     this.state = {
-      playing: true
+      playing: true,
+      songDuration: whoosh.getDuration(),
+      currentTime: 0,
+      songPercentage: 0,
     };
   }
 
-  togglePlay(){
-    this.setState({ playing: !this.state.playing });
+  componentWillUnmount(){
+    clearTimeout(this.timeCallback);
   }
 
-  render() {
+  getTime() {
+    whoosh.getCurrentTime((seconds) => {
+      let songPercentage = seconds / this.state.songDuration;
+      this.setState({
+        currentTime: seconds,
+        songPercentage: songPercentage,
+      });
+    });
 
+  }
+
+  goBackward(){
+    whoosh.setCurrentTime(0);
+    this.setState({
+      currentTime: 0,
+      songPercentage: 0,
+    });
+  }
+
+  togglePlay(){
+    if(this.state.playing){
+      this.setState({ playing: false });
+      whoosh.pause();
+    } else {
+      this.setState({ playing: true });
+      whoosh.play();
+    }
+  }
+
+  //TODO: Move this to a Utils file
+  withLeadingZero(amount){
+    if (amount < 10 ){
+      return `0${ amount }`;
+    } else {
+      return `${ amount }`;
+    }
+  }
+
+  //TODO: Move this to a Utils file
+  formattedTime( timeInSeconds ){
+    let minutes = Math.floor(timeInSeconds / 60);
+    let seconds = timeInSeconds - minutes * 60;
+
+    return(`${ this.withLeadingZero( minutes ) }:${ this.withLeadingZero( seconds.toFixed(0) ) }`);
+  }
+
+
+
+  render() {
     let playButton;
     if( this.state.playing ){
       playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-pause" size={70} color="#fff" />;
     } else {
       playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-play" size={70} color="#fff" />;
     }
+
+
     return (
       <View style={styles.container}>
         <View style={ styles.header }>
@@ -63,16 +120,16 @@ class Player extends Component {
             style={ styles.slider }
             trackStyle={ styles.sliderTrack }
             thumbStyle={ styles.sliderThumb }
-            value={ 0.3 }/>
+            value={ this.state.songPercentage }/>
 
           <View style={ styles.timeInfo }>
-            <Text style={ styles.time }>0:37</Text>
-            <Text style={ styles.timeRight }>-3:24</Text>
+            <Text style={ styles.time }>{ this.formattedTime(this.state.currentTime)  }</Text>
+            <Text style={ styles.timeRight }>- { this.formattedTime( this.state.songDuration - this.state.currentTime ) }</Text>
           </View>
         </View>
         <View style={ styles.controls }>
           <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
-          <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
+          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           { playButton }
           <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
           <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />

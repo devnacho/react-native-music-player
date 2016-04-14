@@ -11,6 +11,7 @@ import React, {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Slider from 'react-native-slider';
 
 
 const window = Dimensions.get('window');
@@ -38,6 +39,14 @@ class Player extends Component {
         <Text style={ styles.albumTitle }>
           { this.props.song.album }
         </Text>
+        <View style={ styles.sliderContainer }>
+          <Slider
+            minimumTrackTintColor='#851c44'
+            style={ styles.slider }
+            trackStyle={ styles.sliderTrack }
+            thumbStyle={ styles.sliderThumb }
+            value={ 0.3 }/>
+        </View>
         <View style={ styles.controls }>
           <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           <Icon style={ styles.play } name="ios-play" size={70} color="#fff" />
@@ -101,6 +110,29 @@ const styles = StyleSheet.create({
   forward: {
     marginTop: 22,
   },
+  sliderContainer: {
+    width: window.width - 40,
+  },
+  slider: {
+    height: 20,
+  },
+  sliderTrack: {
+    height: 2,
+    backgroundColor: '#333',
+  },
+  sliderThumb: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#f62976',
+    borderRadius: 10 / 2,
+    shadowColor: 'red',
+    shadowOffset: {width: 0, height: 0},
+    shadowRadius: 2,
+    shadowOpacity: 1,
+  }
+});
+
+var customSliderStyles = StyleSheet.create({
 });
 
 module.exports = Player;

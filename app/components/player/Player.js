@@ -38,6 +38,11 @@ class Player extends Component {
         <Text style={ styles.albumTitle }>
           { this.props.song.album }
         </Text>
+        <View style={ styles.controls }>
+          <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
+          <Icon style={ styles.play } name="ios-play" size={70} color="#fff" />
+          <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
+        </View>
       </View>
     );
   }
@@ -82,6 +87,19 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica Neue",
     fontSize: 14,
     marginBottom: 20,
+  },
+  controls: {
+    flexDirection: 'row',
+  },
+  back: {
+    marginTop: 22,
+  },
+  play: {
+    marginLeft: 50,
+    marginRight: 50,
+  },
+  forward: {
+    marginTop: 22,
   },
 });
 

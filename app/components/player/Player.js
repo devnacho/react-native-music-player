@@ -10,6 +10,8 @@ import React, {
 } from 'react-native';
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 const window = Dimensions.get('window');
 
@@ -22,9 +24,9 @@ class Player extends Component {
             { this.props.artist.name }
           </Text>
         </View>
-        <Text onPress={ Actions.pop } style={ styles.headerClose }>
-          X
-        </Text>
+        <View style={ styles.headerClose }>
+          <Icon onPress={ Actions.pop } name="chevron-down" size={15} color="#fff" />
+        </View>
         <Image
           style={ styles.songImage }
           source={{uri: this.props.image,
@@ -53,7 +55,6 @@ const styles = StyleSheet.create({
     width: window.width,
   },
   headerClose: {
-    color: '#FFF',
     position: 'absolute',
     top: 10,
     left: 0,

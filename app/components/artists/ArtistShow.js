@@ -13,6 +13,7 @@ import React, {
 import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
@@ -98,9 +99,9 @@ class ArtistShow extends Component {
           renderBackground={ this.renderBackground.bind(this) }>
           { this.renderSongsList() }
         </ParallaxScrollView>
-        <Text onPress={ () => Actions.pop() } style={ styles.headerClose }>
-          &laquo;
-        </Text>
+        <View style={ styles.headerClose }>
+          <Icon onPress={ Actions.pop } name="chevron-left" size={15} color="#fff" />
+        </View>
       </View>
     );
   }
@@ -118,12 +119,10 @@ const styles = StyleSheet.create({
     height: PARALLAX_HEADER_HEIGHT
   },
   headerClose: {
-    color: '#FFF',
     position: 'absolute',
     top: 5,
     left: 0,
-    fontSize: 20,
-    paddingTop: 5,
+    paddingTop: 15,
     paddingBottom: 5,
     paddingLeft: 20,
     paddingRight: 20,

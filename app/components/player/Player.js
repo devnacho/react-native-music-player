@@ -17,7 +17,25 @@ import Slider from 'react-native-slider';
 const window = Dimensions.get('window');
 
 class Player extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      playing: true
+    };
+  }
+
+  togglePlay(){
+    this.setState({ playing: !this.state.playing });
+  }
+
   render() {
+
+    let playButton;
+    if( this.state.playing ){
+      playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-pause" size={70} color="#fff" />;
+    } else {
+      playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-play" size={70} color="#fff" />;
+    }
     return (
       <View style={styles.container}>
         <View style={ styles.header }>
@@ -55,7 +73,7 @@ class Player extends Component {
         <View style={ styles.controls }>
           <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
           <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
-          <Icon style={ styles.play } name="ios-play" size={70} color="#fff" />
+          { playButton }
           <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
           <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />
         </View>

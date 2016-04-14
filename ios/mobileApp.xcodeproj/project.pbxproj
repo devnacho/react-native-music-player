@@ -30,6 +30,7 @@
 		92AF62C6E0CD4C0BB0201102 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F2140207B1438EA613F38F /* libRNVectorIcons.a */; };
 		B8625E32D4614804A3175AAB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C8B1FD829B04A5BA572CBC9 /* FontAwesome.ttf */; };
 		BC880391F3324F828F4BB0C3 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59E5585226FA4571A70368B3 /* Entypo.ttf */; };
+		C13DA4521CC0361F00478478 /* song2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C13DA4511CC0361F00478478 /* song2.mp3 */; };
 		C1C4B47E1CBFFE6E008EA996 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1C4B47C1CBFFE25008EA996 /* libRNSound.a */; };
 		C1C4B4801CBFFEC8008EA996 /* song1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C1C4B47F1CBFFEC8008EA996 /* song1.mp3 */; };
 		C73DB7DD25A94563A7798C4B /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05490E19F3CC4860837BD434 /* Octicons.ttf */; };
@@ -158,6 +159,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		805C02BE868148AEB4BC922D /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		C13DA4511CC0361F00478478 /* song2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = song2.mp3; path = ../../../../Downloads/song2.mp3; sourceTree = "<group>"; };
 		C1C4B46D1CBFFE25008EA996 /* RNSound.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		C1C4B47F1CBFFEC8008EA996 /* song1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = song1.mp3; path = ../../../../Downloads/song1.mp3; sourceTree = "<group>"; };
 		E09F58E57C37420CAA778052 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				05490E19F3CC4860837BD434 /* Octicons.ttf */,
 				34E52EB656F04B52BB83A557 /* Zocial.ttf */,
 				C1C4B47F1CBFFEC8008EA996 /* song1.mp3 */,
+				C13DA4511CC0361F00478478 /* song2.mp3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				C1C4B4801CBFFEC8008EA996 /* song1.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				BC880391F3324F828F4BB0C3 /* Entypo.ttf in Resources */,
+				C13DA4521CC0361F00478478 /* song2.mp3 in Resources */,
 				064090A51F194B9DB551F22C /* EvilIcons.ttf in Resources */,
 				B8625E32D4614804A3175AAB /* FontAwesome.ttf in Resources */,
 				119774E228E44E7592F87C4A /* Foundation.ttf in Resources */,

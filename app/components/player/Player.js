@@ -29,6 +29,7 @@ class Player extends Component {
       songDuration: whoosh.getDuration(),
       currentTime: 0,
       songPercentage: 0,
+      sliding: false,
     };
   }
 
@@ -37,13 +38,15 @@ class Player extends Component {
   }
 
   getTime() {
-    whoosh.getCurrentTime((seconds) => {
-      let songPercentage = seconds / this.state.songDuration;
-      this.setState({
-        currentTime: seconds,
-        songPercentage: songPercentage,
+    if( !this.state.sliding ){
+      whoosh.getCurrentTime((seconds) => {
+        let songPercentage = seconds / this.state.songDuration;
+        this.setState({
+          currentTime: seconds,
+          songPercentage: songPercentage,
+        });
       });
-    });
+    }
 
   }
 
@@ -83,6 +86,20 @@ class Player extends Component {
   }
 
 
+  onSlidingStart(){
+    this.setState({ sliding: true });
+  }
+
+  onSlidingChange(value){
+    let newPosition = value * this.state.songDuration;
+    this.setState({ currentTime: newPosition, songPercentage: value });
+//this.setState({ songPercentage: value });
+  }
+
+  onSlidingComplete(){
+    whoosh.setCurrentTime(this.state.currentTime);
+    this.setState({ sliding: false });
+  }
 
   render() {
     let playButton;
@@ -116,6 +133,9 @@ class Player extends Component {
         </Text>
         <View style={ styles.sliderContainer }>
           <Slider
+            onSlidingStart={ this.onSlidingStart.bind(this) }
+            onSlidingComplete={ this.onSlidingComplete.bind(this) }
+            onValueChange={ this.onSlidingChange.bind(this) }
             minimumTrackTintColor='#851c44'
             style={ styles.slider }
             trackStyle={ styles.sliderTrack }

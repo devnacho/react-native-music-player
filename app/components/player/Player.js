@@ -46,11 +46,18 @@ class Player extends Component {
             trackStyle={ styles.sliderTrack }
             thumbStyle={ styles.sliderThumb }
             value={ 0.3 }/>
+
+          <View style={ styles.timeInfo }>
+            <Text style={ styles.time }>0:37</Text>
+            <Text style={ styles.timeRight }>-3:24</Text>
+          </View>
         </View>
         <View style={ styles.controls }>
+          <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
           <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           <Icon style={ styles.play } name="ios-play" size={70} color="#fff" />
           <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
+          <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />
         </View>
       </View>
     );
@@ -100,10 +107,11 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 30,
   },
   back: {
     marginTop: 22,
+    marginLeft: 45,
   },
   play: {
     marginLeft: 50,
@@ -111,9 +119,30 @@ const styles = StyleSheet.create({
   },
   forward: {
     marginTop: 22,
+    marginRight: 45,
+  },
+  shuffle: {
+    marginTop: 26,
+  },
+  volume: {
+    marginTop: 26,
   },
   sliderContainer: {
     width: window.width - 40,
+  },
+  timeInfo: {
+    flexDirection: 'row',
+  },
+  time: {
+    color: '#FFF',
+    flex: 1,
+    fontSize: 10,
+  },
+  timeRight: {
+    color: '#FFF',
+    textAlign: 'right',
+    flex: 1,
+    fontSize: 10,
   },
   slider: {
     height: 20,

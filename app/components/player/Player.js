@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   songImage: {
+    marginBottom: 20,
   },
   songTitle: {
     color: "white",
@@ -99,6 +100,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
+    marginTop: 10,
   },
   back: {
     marginTop: 22,

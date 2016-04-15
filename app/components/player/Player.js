@@ -22,14 +22,24 @@ class Player extends Component {
     super(props);
     this.state = {
       playing: true,
-      currentTime: 0,
+      muted: false,
+      shuffle: false,
       sliding: false,
+      currentTime: 0,
       songIndex: props.songIndex,
     };
   }
 
   togglePlay(){
     this.setState({ playing: !this.state.playing });
+  }
+
+  toggleVolume(){
+    this.setState({ muted: !this.state.muted });
+  }
+
+  toggleShuffle(){
+    this.setState({ shuffle: !this.state.shuffle });
   }
 
   goBackward(){
@@ -48,12 +58,16 @@ class Player extends Component {
 
   goForward(){
     this.setState({
-      songIndex: this.state.songIndex + 1,
+      songIndex: this.state.shuffle ? this.randomSongIndex() : this.state.songIndex + 1,
       currentTime: 0,
     });
     this.refs.audio.seek(0);
   }
 
+  randomSongIndex(){
+    let maxIndex = this.props.songs.length - 1;
+    return Math.floor(Math.random() * (maxIndex - 0 + 1)) + 0;
+  }
 
   setTime(params){
     if( !this.state.sliding ){
@@ -101,18 +115,32 @@ class Player extends Component {
     }
 
     let forwardButton;
-    if( this.state.songIndex + 1 === this.props.songs.length ){
+    if( !this.state.shuffle && this.state.songIndex + 1 === this.props.songs.length ){
       forwardButton = <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#333" />;
     } else {
       forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />;
     }
 
-let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
+    let volumeButton;
+    if( this.state.muted ){
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-off" size={18} color="#fff" />;
+    } else {
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-up" size={18} color="#fff" />;
+    }
+
+    let shuffleButton;
+    if( this.state.shuffle ){
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#f62976" />;
+    } else {
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />;
+    }
+
+    let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
     return (
       <View style={styles.container}>
         <Video source={{uri: songPlaying.url }}
             ref="audio"
-            volume={1.0}
+            volume={ this.state.muted ? 0 : 1.0}
             muted={false}
             paused={!this.state.playing}
             onLoad={ this.onLoad.bind(this) }
@@ -157,11 +185,11 @@ let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.
           </View>
         </View>
         <View style={ styles.controls }>
-          <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
+          { shuffleButton }
           <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           { playButton }
           { forwardButton }
-          <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />
+          { volumeButton }
         </View>
       </View>
     );

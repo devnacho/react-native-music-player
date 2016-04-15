@@ -278,7 +278,11 @@ function formattedTime( timeInSeconds ){
   let minutes = Math.floor(timeInSeconds / 60);
   let seconds = timeInSeconds - minutes * 60;
 
-  return(`${ withLeadingZero( minutes ) }:${ withLeadingZero( seconds.toFixed(0) ) }`);
+  if( isNaN(minutes) || isNaN(seconds) ){
+    return "";
+  } else {
+    return(`${ withLeadingZero( minutes ) }:${ withLeadingZero( seconds.toFixed(0) ) }`);
+  }
 }
 
 

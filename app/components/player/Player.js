@@ -31,6 +31,13 @@ class Player extends Component {
     this.setState({ playing: !this.state.playing });
   }
 
+  goBackward(){
+    this.refs.audio.seek(0);
+    this.setState({
+      currentTime: 0,
+    });
+  }
+
   setTime(params){
     if( !this.state.sliding ){
       this.setState({ currentTime: params.currentTime });
@@ -120,7 +127,7 @@ class Player extends Component {
         </View>
         <View style={ styles.controls }>
           <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
-          <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
+          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           { playButton }
           <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
           <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />

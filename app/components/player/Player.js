@@ -12,6 +12,7 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
+import Video from 'react-native-video';
 
 
 const window = Dimensions.get('window');
@@ -20,7 +21,9 @@ class Player extends Component {
   constructor(props){
     super(props);
     this.state = {
-      playing: true
+      playing: true,
+      currentTime: 0,
+      sliding: false,
     };
   }
 
@@ -28,7 +31,39 @@ class Player extends Component {
     this.setState({ playing: !this.state.playing });
   }
 
+  setTime(params){
+    if( !this.state.sliding ){
+      this.setState({ currentTime: params.currentTime });
+    }
+  }
+
+  onLoad(params){
+    this.setState({ songDuration: params.duration });
+  }
+
+  onSlidingStart(){
+    this.setState({ sliding: true });
+  }
+
+  onSlidingChange(value){
+    let newPosition = value * this.state.songDuration;
+    this.setState({ currentTime: newPosition });
+  }
+
+  onSlidingComplete(){
+    this.refs.audio.seek( this.state.currentTime );
+    this.setState({ sliding: false });
+  }
+
+
   render() {
+
+    let songPercentage;
+    if( this.state.songDuration !== undefined ){
+      songPercentage = this.state.currentTime / this.state.songDuration;
+    } else {
+      songPercentage = 0;
+    }
 
     let playButton;
     if( this.state.playing ){
@@ -38,6 +73,16 @@ class Player extends Component {
     }
     return (
       <View style={styles.container}>
+        <Video source={{uri: "https://www.freesound.org/data/previews/208/208096_3767678-lq.mp3"}}
+            ref="audio"
+            volume={1.0}
+            muted={false}
+            paused={!this.state.playing}
+            onLoad={ this.onLoad.bind(this) }
+            onProgress={this.setTime.bind(this) }
+            resizeMode="cover"
+            repeat={false}/>
+
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
             { this.props.artist.name }
@@ -59,15 +104,18 @@ class Player extends Component {
         </Text>
         <View style={ styles.sliderContainer }>
           <Slider
+            onSlidingStart={ this.onSlidingStart.bind(this) }
+            onSlidingComplete={ this.onSlidingComplete.bind(this) }
+            onValueChange={ this.onSlidingChange.bind(this) }
             minimumTrackTintColor='#851c44'
             style={ styles.slider }
             trackStyle={ styles.sliderTrack }
             thumbStyle={ styles.sliderThumb }
-            value={ 0.3 }/>
+            value={ songPercentage }/>
 
           <View style={ styles.timeInfo }>
-            <Text style={ styles.time }>0:37</Text>
-            <Text style={ styles.timeRight }>-3:24</Text>
+            <Text style={ styles.time }>{ formattedTime(this.state.currentTime)  }</Text>
+            <Text style={ styles.timeRight }>- { formattedTime( this.state.songDuration - this.state.currentTime ) }</Text>
           </View>
         </View>
         <View style={ styles.controls }>
@@ -181,7 +229,21 @@ const styles = StyleSheet.create({
   }
 });
 
-var customSliderStyles = StyleSheet.create({
-});
+//TODO: Move this to a Utils file
+function withLeadingZero(amount){
+  if (amount < 10 ){
+    return `0${ amount }`;
+  } else {
+    return `${ amount }`;
+  }
+}
+
+function formattedTime( timeInSeconds ){
+  let minutes = Math.floor(timeInSeconds / 60);
+  let seconds = timeInSeconds - minutes * 60;
+
+  return(`${ withLeadingZero( minutes ) }:${ withLeadingZero( seconds.toFixed(0) ) }`);
+}
+
 
 module.exports = Player;

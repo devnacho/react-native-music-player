@@ -106,6 +106,8 @@ class Player extends Component {
     } else {
       forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />;
     }
+
+let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
     return (
       <View style={styles.container}>
         <Video source={{uri: songPlaying.url }}
@@ -129,7 +131,7 @@ class Player extends Component {
         </View>
         <Image
           style={ styles.songImage }
-          source={{uri: this.props.image,
+          source={{uri: image,
                         width: window.width - 30,
                         height: 300}}/>
         <Text style={ styles.songTitle }>

@@ -24,6 +24,7 @@ class Player extends Component {
       playing: true,
       currentTime: 0,
       sliding: false,
+      songIndex: props.songIndex,
     };
   }
 
@@ -32,11 +33,27 @@ class Player extends Component {
   }
 
   goBackward(){
-    this.refs.audio.seek(0);
+    if(this.state.currentTime < 3 && this.state.songIndex !== 0 ){
+      this.setState({
+        songIndex: this.state.songIndex - 1,
+        currentTime: 0,
+      });
+    } else {
+      this.refs.audio.seek(0);
+      this.setState({
+        currentTime: 0,
+      });
+    }
+  }
+
+  goForward(){
     this.setState({
+      songIndex: this.state.songIndex + 1,
       currentTime: 0,
     });
+    this.refs.audio.seek(0);
   }
+
 
   setTime(params){
     if( !this.state.sliding ){
@@ -68,7 +85,7 @@ class Player extends Component {
 
 
   render() {
-
+    let songPlaying = this.props.songs[this.state.songIndex];
     let songPercentage;
     if( this.state.songDuration !== undefined ){
       songPercentage = this.state.currentTime / this.state.songDuration;
@@ -82,9 +99,16 @@ class Player extends Component {
     } else {
       playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-play" size={70} color="#fff" />;
     }
+
+    let forwardButton;
+    if( this.state.songIndex + 1 === this.props.songs.length ){
+      forwardButton = <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#333" />;
+    } else {
+      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />;
+    }
     return (
       <View style={styles.container}>
-        <Video source={{uri: "https://www.freesound.org/data/previews/208/208096_3767678-lq.mp3"}}
+        <Video source={{uri: songPlaying.url }}
             ref="audio"
             volume={1.0}
             muted={false}
@@ -109,10 +133,10 @@ class Player extends Component {
                         width: window.width - 30,
                         height: 300}}/>
         <Text style={ styles.songTitle }>
-          { this.props.song.title }
+          { songPlaying.title }
         </Text>
         <Text style={ styles.albumTitle }>
-          { this.props.song.album }
+          { songPlaying.album }
         </Text>
         <View style={ styles.sliderContainer }>
           <Slider
@@ -134,7 +158,7 @@ class Player extends Component {
           <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
           <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           { playButton }
-          <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
+          { forwardButton }
           <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />
         </View>
       </View>

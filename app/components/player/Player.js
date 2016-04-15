@@ -62,6 +62,10 @@ class Player extends Component {
     this.setState({ sliding: false });
   }
 
+  onEnd(){
+    this.setState({ playing: false });
+  }
+
 
   render() {
 
@@ -86,7 +90,8 @@ class Player extends Component {
             muted={false}
             paused={!this.state.playing}
             onLoad={ this.onLoad.bind(this) }
-            onProgress={this.setTime.bind(this) }
+            onProgress={ this.setTime.bind(this) }
+            onEnd={ this.onEnd.bind(this) }
             resizeMode="cover"
             repeat={false}/>
 

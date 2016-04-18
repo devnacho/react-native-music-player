@@ -1,6 +1,7 @@
 package com.mobileapp;
 
 import com.facebook.react.ReactActivity;
+import com.brentvatne.RCTVideo.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +37,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new ReactVideoPackage(),
             new VectorIconsPackage()
       );
     }

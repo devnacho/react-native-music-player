@@ -44,7 +44,7 @@ class ArtistShow extends Component {
         </Text>
         <View style={ styles.playButton }>
           <Text
-            onPress={ () => Actions.player({ song: this.props.artist.songs[0], image: this.props.artist.background, artist: this.props.artist }) }
+            onPress={ () => Actions.player({ songIndex: 0, songs: this.props.artist.songs, image: this.props.artist.background, artist: this.props.artist }) }
             style={ styles.playButtonText }>
             PLAY
           </Text>
@@ -70,8 +70,8 @@ class ArtistShow extends Component {
       <ListView
         dataSource={ songsDataSource }
         style={ styles.songsList }
-        renderRow={(song) => (
-          <TouchableHighlight onPress={ () => Actions.player({ song: song, image: this.props.artist.background, artist: this.props.artist }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
+        renderRow={(song, sectionId, rowId) => (
+          <TouchableHighlight onPress={ () => Actions.player({ songIndex: parseInt( rowId ), songs: this.props.artist.songs, artist: this.props.artist }) } activeOpacity={ 100 } underlayColor="rgba(246, 41, 118, 0.6)">
             <View key={song} style={ styles.song }>
               <Text style={ styles.songTitle }>
                 { song.title }

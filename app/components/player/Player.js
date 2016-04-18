@@ -12,6 +12,7 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
+import Video from 'react-native-video';
 
 
 const window = Dimensions.get('window');
@@ -20,7 +21,12 @@ class Player extends Component {
   constructor(props){
     super(props);
     this.state = {
-      playing: true
+      playing: true,
+      muted: false,
+      shuffle: false,
+      sliding: false,
+      currentTime: 0,
+      songIndex: props.songIndex,
     };
   }
 
@@ -28,7 +34,78 @@ class Player extends Component {
     this.setState({ playing: !this.state.playing });
   }
 
+  toggleVolume(){
+    this.setState({ muted: !this.state.muted });
+  }
+
+  toggleShuffle(){
+    this.setState({ shuffle: !this.state.shuffle });
+  }
+
+  goBackward(){
+    if(this.state.currentTime < 3 && this.state.songIndex !== 0 ){
+      this.setState({
+        songIndex: this.state.songIndex - 1,
+        currentTime: 0,
+      });
+    } else {
+      this.refs.audio.seek(0);
+      this.setState({
+        currentTime: 0,
+      });
+    }
+  }
+
+  goForward(){
+    this.setState({
+      songIndex: this.state.shuffle ? this.randomSongIndex() : this.state.songIndex + 1,
+      currentTime: 0,
+    });
+    this.refs.audio.seek(0);
+  }
+
+  randomSongIndex(){
+    let maxIndex = this.props.songs.length - 1;
+    return Math.floor(Math.random() * (maxIndex - 0 + 1)) + 0;
+  }
+
+  setTime(params){
+    if( !this.state.sliding ){
+      this.setState({ currentTime: params.currentTime });
+    }
+  }
+
+  onLoad(params){
+    this.setState({ songDuration: params.duration });
+  }
+
+  onSlidingStart(){
+    this.setState({ sliding: true });
+  }
+
+  onSlidingChange(value){
+    let newPosition = value * this.state.songDuration;
+    this.setState({ currentTime: newPosition });
+  }
+
+  onSlidingComplete(){
+    this.refs.audio.seek( this.state.currentTime );
+    this.setState({ sliding: false });
+  }
+
+  onEnd(){
+    this.setState({ playing: false });
+  }
+
+
   render() {
+    let songPlaying = this.props.songs[this.state.songIndex];
+    let songPercentage;
+    if( this.state.songDuration !== undefined ){
+      songPercentage = this.state.currentTime / this.state.songDuration;
+    } else {
+      songPercentage = 0;
+    }
 
     let playButton;
     if( this.state.playing ){
@@ -36,8 +113,42 @@ class Player extends Component {
     } else {
       playButton = <Icon onPress={ this.togglePlay.bind(this) } style={ styles.play } name="ios-play" size={70} color="#fff" />;
     }
+
+    let forwardButton;
+    if( !this.state.shuffle && this.state.songIndex + 1 === this.props.songs.length ){
+      forwardButton = <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#333" />;
+    } else {
+      forwardButton = <Icon onPress={ this.goForward.bind(this) } style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />;
+    }
+
+    let volumeButton;
+    if( this.state.muted ){
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-off" size={18} color="#fff" />;
+    } else {
+      volumeButton = <Icon onPress={ this.toggleVolume.bind(this) } style={ styles.volume } name="android-volume-up" size={18} color="#fff" />;
+    }
+
+    let shuffleButton;
+    if( this.state.shuffle ){
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#f62976" />;
+    } else {
+      shuffleButton = <Icon onPress={ this.toggleShuffle.bind(this) } style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />;
+    }
+
+    let image = songPlaying.albumImage ? songPlaying.albumImage : this.props.artist.background;
     return (
       <View style={styles.container}>
+        <Video source={{uri: songPlaying.url }}
+            ref="audio"
+            volume={ this.state.muted ? 0 : 1.0}
+            muted={false}
+            paused={!this.state.playing}
+            onLoad={ this.onLoad.bind(this) }
+            onProgress={ this.setTime.bind(this) }
+            onEnd={ this.onEnd.bind(this) }
+            resizeMode="cover"
+            repeat={false}/>
+
         <View style={ styles.header }>
           <Text style={ styles.headerText }>
             { this.props.artist.name }
@@ -48,34 +159,37 @@ class Player extends Component {
         </View>
         <Image
           style={ styles.songImage }
-          source={{uri: this.props.image,
+          source={{uri: image,
                         width: window.width - 30,
                         height: 300}}/>
         <Text style={ styles.songTitle }>
-          { this.props.song.title }
+          { songPlaying.title }
         </Text>
         <Text style={ styles.albumTitle }>
-          { this.props.song.album }
+          { songPlaying.album }
         </Text>
         <View style={ styles.sliderContainer }>
           <Slider
+            onSlidingStart={ this.onSlidingStart.bind(this) }
+            onSlidingComplete={ this.onSlidingComplete.bind(this) }
+            onValueChange={ this.onSlidingChange.bind(this) }
             minimumTrackTintColor='#851c44'
             style={ styles.slider }
             trackStyle={ styles.sliderTrack }
             thumbStyle={ styles.sliderThumb }
-            value={ 0.3 }/>
+            value={ songPercentage }/>
 
           <View style={ styles.timeInfo }>
-            <Text style={ styles.time }>0:37</Text>
-            <Text style={ styles.timeRight }>-3:24</Text>
+            <Text style={ styles.time }>{ formattedTime(this.state.currentTime)  }</Text>
+            <Text style={ styles.timeRight }>- { formattedTime( this.state.songDuration - this.state.currentTime ) }</Text>
           </View>
         </View>
         <View style={ styles.controls }>
-          <Icon style={ styles.shuffle } name="ios-shuffle-strong" size={18} color="#fff" />
-          <Icon style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
+          { shuffleButton }
+          <Icon onPress={ this.goBackward.bind(this) } style={ styles.back } name="ios-skipbackward" size={25} color="#fff" />
           { playButton }
-          <Icon style={ styles.forward } name="ios-skipforward" size={25} color="#fff" />
-          <Icon style={ styles.volume } name="volume-medium" size={18} color="#fff" />
+          { forwardButton }
+          { volumeButton }
         </View>
       </View>
     );
@@ -181,7 +295,25 @@ const styles = StyleSheet.create({
   }
 });
 
-var customSliderStyles = StyleSheet.create({
-});
+//TODO: Move this to a Utils file
+function withLeadingZero(amount){
+  if (amount < 10 ){
+    return `0${ amount }`;
+  } else {
+    return `${ amount }`;
+  }
+}
+
+function formattedTime( timeInSeconds ){
+  let minutes = Math.floor(timeInSeconds / 60);
+  let seconds = timeInSeconds - minutes * 60;
+
+  if( isNaN(minutes) || isNaN(seconds) ){
+    return "";
+  } else {
+    return(`${ withLeadingZero( minutes ) }:${ withLeadingZero( seconds.toFixed(0) ) }`);
+  }
+}
+
 
 module.exports = Player;

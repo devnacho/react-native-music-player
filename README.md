@@ -5,7 +5,7 @@ This is why I created this demo app.
 
 ## This is how it looks:
 
-
+![Demo](http://jgnatch-dropshare.s3.amazonaws.com/Screen-Recording-2016-05-09-13-03-42.gif)
 [Demo video with sound](http://jgnatch-dropshare.s3.amazonaws.com/Screen-Recording-2016-04-21-11-33-59.mp4)
 
 ## Things in scope that I wanted to learn:

@@ -4,8 +4,9 @@ Ever since Facebook open-sourced React Native, I’ve wanted to try it out.
 This is why I created this demo app.
 
 ## This is how it looks:
-<img src="http://jgnatch-dropshare.s3.amazonaws.com/smallreactnativedemo.gif">
-![image](https://cloud.githubusercontent.com/assets/623766/15111413/29bddcfc-15e7-11e6-8aac-019362fb11e8.png)
+
+![smallreactnativedemo3](https://cloud.githubusercontent.com/assets/623766/15112020/947b02f0-15eb-11e6-865c-d28abba62837.gif)
+
 [Demo video with sound](http://jgnatch-dropshare.s3.amazonaws.com/Screen-Recording-2016-04-21-11-33-59.mp4)
 
 ## Things in scope that I wanted to learn:

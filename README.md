@@ -6,6 +6,8 @@ This is why I created this demo app.
 ## This is how it looks:
 
 
+[Demo video with sound](http://jgnatch-dropshare.s3.amazonaws.com/Screen-Recording-2016-04-21-11-33-59.mp4)
+
 ## Things in scope that I wanted to learn:
 - Practice React Native Layout and Styling.
 - Practice Routing and how to present the flow and animation of different views.
